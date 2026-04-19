@@ -4,7 +4,7 @@
  * @param {string} url      The URL to issue the GET request.
  * @returns {Promise}       A promise that resolves with the fetched data.
  */
-const BASE_URL = "https://ls7mgr-8080.csb.app";
+const BASE_URL = "http://localhost:8080/api";
 
 function fetchModel(url) {
   return fetch(BASE_URL + url)
