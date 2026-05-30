@@ -3,7 +3,7 @@
  * Dành cho người mới học: Sử dụng API fetch mặc định của trình duyệt để gửi các yêu cầu GET và POST.
  */
 
-const BASE_URL = "https://5p4n8q-8080.csb.app/api";
+const BASE_URL = "https://zc32y3-8080.csb.app/api";
 
 // Hàm tiện ích để lấy token JWT được lưu trong localStorage của trình duyệt
 function getToken() {

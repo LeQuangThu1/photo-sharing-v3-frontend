@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import "./styles.css";
 import fetchModel, { postModel } from "../../lib/fetchModelData";
 
-const BACKEND_URL = "https://5p4n8q-8080.csb.app";
+const BACKEND_URL = "https://zc32y3-8080.csb.app";
 
 // Hàm định dạng ngày tháng sang tiếng Anh
 function formatDate(dateStr) {
