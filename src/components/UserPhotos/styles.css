@@ -1,0 +1,189 @@
+/* Khung bọc danh sách ảnh cuộn */
+.photos-list-container {
+  font-family: sans-serif;
+  padding: 10px;
+}
+
+/* Thẻ card trắng chứa ảnh và các bình luận - phẳng hoàn toàn, không đổ bóng, không bo góc */
+.photo-card {
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Ảnh hiển thị */
+.photo-image {
+  max-width: 100%;
+  max-height: 450px;
+  display: block;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Ngày tháng đăng ảnh */
+.photo-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Phân mục bình luận */
+.comments-section {
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+}
+
+.comments-section h4 {
+  margin: 0 0 15px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Danh sách comment */
+.comments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.comment-item {
+  background-color: #f9f9f9;
+  border-left: 3px solid #999;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+
+.comment-author {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.comment-author a {
+  color: #111;
+  text-decoration: underline;
+}
+
+.comment-author a:hover {
+  color: #444;
+}
+
+.comment-time {
+  font-weight: normal;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.comment-text {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+.no-comments {
+  font-size: 0.9rem;
+  color: #777;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* Form viết bình luận */
+.comment-form-container {
+  margin-top: 15px;
+}
+
+.comment-form {
+  display: flex;
+  gap: 10px;
+}
+
+.comment-textarea {
+  flex-grow: 1;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.comment-textarea:focus {
+  outline: none;
+  border-color: #888;
+}
+
+/* Nút thêm bình luận - Nút xám mặc định */
+.btn-add-comment {
+  padding: 0 15px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-add-comment:hover {
+  background-color: #e0e0e0;
+}
+
+.comment-error {
+  color: #b30000;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+/* Phân cách giữa các cụm wrapper ảnh trong list view */
+.photo-separator {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 30px 0;
+}
+
+/* --- STEPPER VIEW CSS (Tính năng nâng cao) --- */
+.stepper-container {
+  font-family: sans-serif;
+  padding: 10px;
+}
+
+.stepper-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+}
+
+.stepper-btn {
+  padding: 6px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+.stepper-btn:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.stepper-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stepper-counter {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.no-photos {
+  font-family: sans-serif;
+  color: #777;
+  font-style: italic;
+  padding: 20px;
+}

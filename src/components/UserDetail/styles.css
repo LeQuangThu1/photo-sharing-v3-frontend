@@ -1,0 +1,55 @@
+/* Thẻ chứa chi tiết thông tin người dùng - phẳng và đơn giản */
+.user-detail-card {
+  font-family: sans-serif;
+  padding: 10px;
+}
+
+.user-detail-card h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.6rem;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Các trường thông tin */
+.detail-info p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 10px 0;
+  color: #333;
+}
+
+.detail-info strong {
+  color: #000;
+}
+
+/* Khoảng cách nút điều hướng */
+.detail-action {
+  margin-top: 25px;
+}
+
+/* Nút Xem Album Ảnh - Giả lập nút bấm xám mặc định */
+.btn-view-photos {
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.btn-view-photos:hover {
+  background-color: #e0e0e0;
+}
+
+.loading-text {
+  font-family: sans-serif;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
+}
