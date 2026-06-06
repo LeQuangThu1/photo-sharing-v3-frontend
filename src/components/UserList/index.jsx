@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { List, ListItem, ListItemText, Divider, Typography } from "@mui/material";
 import "./styles.css";
 import fetchModel from "../../lib/fetchModelData";
 
 /**
  * Component UserList - Hiển thị danh sách người dùng ở sidebar bên trái.
  * Chỉ hoạt động khi người dùng hiện tại đã đăng nhập thành công.
- * Nhãn hiển thị đã được đổi về tiếng Anh: "Users".
+ * Sử dụng Material-UI để đồng bộ giao diện của Lab 1.
  */
 function UserList({ loggedInUser }) {
   const [users, setUsers] = useState([]);
@@ -35,17 +36,21 @@ function UserList({ loggedInUser }) {
   }
 
   return (
-    <div className="user-list-sidebar">
-      <h3>Users</h3>
-      <ul className="user-ul">
+    <div>
+      <Typography variant="h6" style={{ padding: "10px 16px 5px", fontWeight: "bold" }}>
+        Users
+      </Typography>
+      <Divider />
+      <List component="nav">
         {users.map((user) => (
-          <li key={user._id} className="user-li">
-            <Link to={"/users/" + user._id} className="user-link">
-              {user.first_name} {user.last_name}
-            </Link>
-          </li>
+          <React.Fragment key={user._id}>
+            <ListItem button component={Link} to={"/users/" + user._id}>
+              <ListItemText primary={`${user.first_name} ${user.last_name}`} />
+            </ListItem>
+            <Divider />
+          </React.Fragment>
         ))}
-      </ul>
+      </List>
     </div>
   );
 }

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Button, Checkbox, FormControlLabel } from "@mui/material";
 import "./styles.css";
 import fetchModel, { uploadPhoto } from "../../lib/fetchModelData";
 
 /**
  * Component TopBar - Thanh công cụ phía trên cùng của ứng dụng.
- * Sử dụng HTML thuần thay vì Material-UI để học viên dễ theo dõi.
- * Các nhãn hiển thị đã được đưa về tiếng Anh đúng theo yêu cầu tài liệu.
+ * Sử dụng Material-UI để có giao diện chuẩn đẹp và kế thừa màu sắc của Lab 1.
  */
 function TopBar({ loggedInUser, onLogout, advancedFeatures, onToggleAdvanced }) {
   const location = useLocation();
@@ -99,65 +99,76 @@ function TopBar({ loggedInUser, onLogout, advancedFeatures, onToggleAdvanced }) 
   };
 
   return (
-    <header className="main-navbar">
-      
-      {/* TÊN HỌC VIÊN - BÊN TRÁI */}
-      <div className="navbar-brand">
-        Lê Quang Thu
-      </div>
-
-      {/* THÔNG TIN NGỮ CẢNH TRANG (Đang xem ai) */}
-      <div className="navbar-context">
-        {loggedInUser ? contextText : ""}
-      </div>
-
-      {/* CÁC NÚT ĐIỀU KHIỂN & TRẠNG THÁI ĐĂNG NHẬP - BÊN PHẢI */}
-      <div className="navbar-actions">
+    <AppBar position="fixed" className="topbar-appBar">
+      <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
         
-        {/* Nút bật tắt tính năng nâng cao (Stepper) */}
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            checked={!!advancedFeatures}
-            onChange={onToggleAdvanced}
+        {/* TÊN HỌC VIÊN - BÊN TRÁI */}
+        <Typography variant="h5" color="inherit" style={{ fontWeight: "bold" }}>
+          Lê Quang Thu
+        </Typography>
+
+        {/* THÔNG TIN NGỮ CẢNH TRANG (Đang xem ai) */}
+        <Typography variant="h6" color="inherit">
+          {loggedInUser ? contextText : ""}
+        </Typography>
+
+        {/* CÁC NÚT ĐIỀU KHIỂN & TRẠNG THÁI ĐĂNG NHẬP - BÊN PHẢI */}
+        <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+          
+          {/* Nút bật tắt tính năng nâng cao (Stepper) */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={!!advancedFeatures}
+                onChange={onToggleAdvanced}
+                color="secondary"
+                style={{ color: "white" }}
+              />
+            }
+            label="Enable Advanced Features"
+            style={{ color: "white", margin: 0 }}
           />
-          Enable Advanced Features
-        </label>
 
-        {loggedInUser ? (
-          <div className="user-logged-in-controls">
-            <span className="welcome-msg">Hi {loggedInUser.first_name}</span>
-            
-            {/* Input file ẩn phục vụ việc tải ảnh */}
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
-            <button onClick={handleUploadButtonClick}>
-              Add Photo
-            </button>
+          {loggedInUser ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Typography variant="body1" style={{ border: "1px solid rgba(255, 255, 255, 0.5)", padding: "4px 8px" }}>
+                Hi {loggedInUser.first_name}
+              </Typography>
+              
+              {/* Input file ẩn phục vụ việc tải ảnh */}
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+              <Button onClick={handleUploadButtonClick} color="inherit" variant="outlined">
+                Add Photo
+              </Button>
 
-            <button onClick={handleLogoutClick}>
-              Logout
-            </button>
-          </div>
-        ) : (
-          <span className="please-login-text">Please Login</span>
-        )}
+              <Button onClick={handleLogoutClick} color="inherit">
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <Typography variant="body1" style={{ fontStyle: "italic", color: "rgba(255, 255, 255, 0.7)" }}>
+              Please Login
+            </Typography>
+          )}
 
-      </div>
+        </div>
+
+      </Toolbar>
 
       {/* THÔNG BÁO UPLOAD NỔI (TOAST) */}
       {uploadMessage && (
-        <div className={`toast-notification ${isUploadError ? "toast-error" : "toast-success"}`}>
+        <div className={`toast-notification ${isUploadError ? "toast-error" : "toast-success"}`} style={{ color: "#333" }}>
           {uploadMessage}
         </div>
       )}
 
-    </header>
+    </AppBar>
   );
 }
 

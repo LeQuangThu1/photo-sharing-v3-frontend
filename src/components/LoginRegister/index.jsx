@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { Card, CardContent, Typography, TextField, Button, Alert, Box, Grid, Divider } from "@mui/material";
 import "./styles.css";
 import { postModel } from "../../lib/fetchModelData";
 
 /**
  * Component LoginRegister - Quản lý chức năng Đăng nhập và Đăng ký.
- * Sử dụng HTML thuần kết hợp CSS đơn giản để người học dễ đọc hiểu.
- * Có trạng thái toggled giữa Login và Register giúp giao diện cực kỳ tối giản.
+ * Sử dụng Material-UI để đồng bộ giao diện và màu sắc của Lab 1.
  */
 function LoginRegister({ onLogin }) {
   // --- CHẾ ĐỘ XEM (ĐĂNG NHẬP HOẶC ĐĂNG KÝ) ---
@@ -118,155 +118,208 @@ function LoginRegister({ onLogin }) {
   };
 
   return (
-    <div className="login-register-box">
-      
-      {!isRegisterMode ? (
-        /* KHUNG ĐĂNG NHẬP */
-        <div className="auth-card">
-          <h2>Login</h2>
-          {loginError && <div className="error-alert">{loginError}</div>}
+    <Box sx={{ maxWidth: 500, margin: "40px auto", padding: "10px" }}>
+      <Card variant="outlined">
+        <CardContent>
           
-          <form onSubmit={handleLoginSubmit}>
-            <div className="form-group">
-              <label>Login Name:</label>
-              <input
-                type="text"
-                value={loginName}
-                onChange={(e) => setLoginName(e.target.value)}
-                placeholder="Enter your login name (e.g. ian)"
-              />
-            </div>
+          {!isRegisterMode ? (
+            /* KHUNG ĐĂNG NHẬP */
+            <Box>
+              <Typography variant="h5" align="center" gutterBottom style={{ fontWeight: "bold" }}>
+                Login
+              </Typography>
+              <Divider style={{ marginBottom: 20 }} />
+              
+              {loginError && <Alert severity="error" style={{ marginBottom: 15 }}>{loginError}</Alert>}
+              
+              <form onSubmit={handleLoginSubmit}>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    label="Login Name"
+                    variant="outlined"
+                    size="small"
+                    value={loginName}
+                    onChange={(e) => setLoginName(e.target.value)}
+                    placeholder="Enter your login name (e.g. ian)"
+                  />
+                </Box>
 
-            <div className="form-group">
-              <label>Password:</label>
-              <input
-                type="password"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                placeholder="Enter your password"
-              />
-            </div>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    type="password"
+                    label="Password"
+                    variant="outlined"
+                    size="small"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    placeholder="Enter your password"
+                  />
+                </Box>
 
-            <button type="submit" className="btn">Login</button>
-          </form>
+                <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: 10 }}>
+                  Login
+                </Button>
+              </form>
 
-          {/* Dòng chữ chuyển đổi sang Đăng ký */}
-          <p className="toggle-auth-text">
-            Don't have an account?{" "}
-            <span className="toggle-link" onClick={() => {
-              setIsRegisterMode(true);
-              setLoginError("");
-            }}>
-              Register here
-            </span>
-          </p>
-        </div>
-      ) : (
-        /* KHUNG ĐĂNG KÝ */
-        <div className="auth-card">
-          <h2>Register</h2>
-          {regError && <div className="error-alert">{regError}</div>}
-          {regSuccess && <div className="success-alert">{regSuccess}</div>}
+              {/* Dòng chữ chuyển đổi sang Đăng ký */}
+              <Box mt={3} textAlign="center">
+                <Typography variant="body2" color="textSecondary">
+                  Don't have an account?{" "}
+                  <span
+                    style={{ color: "#1976d2", cursor: "pointer", fontWeight: "bold", textDecoration: "underline" }}
+                    onClick={() => {
+                      setIsRegisterMode(true);
+                      setLoginError("");
+                    }}
+                  >
+                    Register here
+                  </span>
+                </Typography>
+              </Box>
+            </Box>
+          ) : (
+            /* KHUNG ĐĂNG KÝ */
+            <Box>
+              <Typography variant="h5" align="center" gutterBottom style={{ fontWeight: "bold" }}>
+                Register
+              </Typography>
+              <Divider style={{ marginBottom: 20 }} />
 
-          <form onSubmit={handleRegisterSubmit}>
-            <div className="form-group">
-              <label>Login Name *:</label>
-              <input
-                type="text"
-                value={regLoginName}
-                onChange={(e) => setRegLoginName(e.target.value)}
-                placeholder="Unique login name"
-              />
-            </div>
+              {regError && <Alert severity="error" style={{ marginBottom: 15 }}>{regError}</Alert>}
+              {regSuccess && <Alert severity="success" style={{ marginBottom: 15 }}>{regSuccess}</Alert>}
 
-            <div className="form-group">
-              <label>Password *:</label>
-              <input
-                type="password"
-                value={regPassword}
-                onChange={(e) => setRegPassword(e.target.value)}
-                placeholder="Password"
-              />
-            </div>
+              <form onSubmit={handleRegisterSubmit}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Login Name *"
+                      variant="outlined"
+                      size="small"
+                      value={regLoginName}
+                      onChange={(e) => setRegLoginName(e.target.value)}
+                      placeholder="Unique login name"
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      type="password"
+                      label="Password *"
+                      variant="outlined"
+                      size="small"
+                      value={regPassword}
+                      onChange={(e) => setRegPassword(e.target.value)}
+                      placeholder="Password"
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      type="password"
+                      label="Confirm Password *"
+                      variant="outlined"
+                      size="small"
+                      value={regConfirmPassword}
+                      onChange={(e) => setRegConfirmPassword(e.target.value)}
+                      placeholder="Re-type password"
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      label="First Name *"
+                      variant="outlined"
+                      size="small"
+                      value={regFirstName}
+                      onChange={(e) => setRegFirstName(e.target.value)}
+                      placeholder="Your first name"
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      label="Last Name *"
+                      variant="outlined"
+                      size="small"
+                      value={regLastName}
+                      onChange={(e) => setRegLastName(e.target.value)}
+                      placeholder="Your last name"
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Location"
+                      variant="outlined"
+                      size="small"
+                      value={regLocation}
+                      onChange={(e) => setRegLocation(e.target.value)}
+                      placeholder="Current location (optional)"
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Description"
+                      variant="outlined"
+                      size="small"
+                      value={regDescription}
+                      onChange={(e) => setRegDescription(e.target.value)}
+                      placeholder="Short bio (optional)"
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Occupation"
+                      variant="outlined"
+                      size="small"
+                      value={regOccupation}
+                      onChange={(e) => setRegOccupation(e.target.value)}
+                      placeholder="Occupation (optional)"
+                    />
+                  </Grid>
+                </Grid>
 
-            <div className="form-group">
-              <label>Confirm Password *:</label>
-              <input
-                type="password"
-                value={regConfirmPassword}
-                onChange={(e) => setRegConfirmPassword(e.target.value)}
-                placeholder="Re-type password"
-              />
-            </div>
+                <Box mt={3}>
+                  <Button type="submit" variant="contained" color="primary" fullWidth>
+                    Register Me
+                  </Button>
+                </Box>
+              </form>
 
-            <div className="form-group">
-              <label>First Name *:</label>
-              <input
-                type="text"
-                value={regFirstName}
-                onChange={(e) => setRegFirstName(e.target.value)}
-                placeholder="Your first name"
-              />
-            </div>
+              {/* Dòng chữ chuyển đổi sang Đăng nhập */}
+              <Box mt={3} textAlign="center">
+                <Typography variant="body2" color="textSecondary">
+                  Already have an account?{" "}
+                  <span
+                    style={{ color: "#1976d2", cursor: "pointer", fontWeight: "bold", textDecoration: "underline" }}
+                    onClick={() => {
+                      setIsRegisterMode(false);
+                      setRegError("");
+                      setRegSuccess("");
+                    }}
+                  >
+                    Login here
+                  </span>
+                </Typography>
+              </Box>
+            </Box>
+          )}
 
-            <div className="form-group">
-              <label>Last Name *:</label>
-              <input
-                type="text"
-                value={regLastName}
-                onChange={(e) => setRegLastName(e.target.value)}
-                placeholder="Your last name"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Location:</label>
-              <input
-                type="text"
-                value={regLocation}
-                onChange={(e) => setRegLocation(e.target.value)}
-                placeholder="Current location (optional)"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Description:</label>
-              <input
-                type="text"
-                value={regDescription}
-                onChange={(e) => setRegDescription(e.target.value)}
-                placeholder="Short bio (optional)"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Occupation:</label>
-              <input
-                type="text"
-                value={regOccupation}
-                onChange={(e) => setRegOccupation(e.target.value)}
-                placeholder="Occupation (optional)"
-              />
-            </div>
-
-            <button type="submit" className="btn">Register Me</button>
-          </form>
-
-          {/* Dòng chữ chuyển đổi sang Đăng nhập */}
-          <p className="toggle-auth-text">
-            Already have an account?{" "}
-            <span className="toggle-link" onClick={() => {
-              setIsRegisterMode(false);
-              setRegError("");
-              setRegSuccess("");
-            }}>
-              Login here
-            </span>
-          </p>
-        </div>
-      )}
-
-    </div>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
 

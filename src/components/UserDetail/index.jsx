@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Typography, Button, Divider } from "@mui/material";
 import "./styles.css";
 import fetchModel from "../../lib/fetchModelData";
 
 /**
  * Component UserDetail - Hiển thị chi tiết thông tin của một người dùng.
- * Các nhãn hiển thị đã được đổi về tiếng Anh.
+ * Sử dụng Material-UI để đồng bộ giao diện và màu sắc của Lab 1.
  */
 function UserDetail() {
   const { userId } = useParams(); // Lấy userId từ URL bằng React Router Hook
@@ -23,27 +24,45 @@ function UserDetail() {
   }, [userId]);
 
   if (!user) {
-    return <div className="loading-text">Loading...</div>;
+    return (
+      <Typography variant="body1" style={{ fontStyle: "italic", padding: 20 }}>
+        Loading...
+      </Typography>
+    );
   }
 
   return (
-    <div className="user-detail-card">
+    <div style={{ padding: 20 }}>
       
       {/* TÊN NGƯỜI DÙNG */}
-      <h2>{user.first_name} {user.last_name}</h2>
+      <Typography variant="h4" gutterBottom style={{ fontWeight: "bold" }}>
+        {user.first_name} {user.last_name}
+      </Typography>
+      <Divider style={{ marginBottom: 20 }} />
       
       {/* CHI TIẾT CÁC TRƯỜNG THÔNG TIN */}
-      <div className="detail-info">
-        <p><strong>Location:</strong> {user.location || "Not specified"}</p>
-        <p><strong>Occupation:</strong> {user.occupation || "Not specified"}</p>
-        <p><strong>Description:</strong> {user.description || "Not specified"}</p>
+      <div style={{ marginBottom: 20 }}>
+        <Typography variant="body1" gutterBottom>
+          <strong>Location:</strong> {user.location || "Not specified"}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          <strong>Occupation:</strong> {user.occupation || "Not specified"}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          <strong>Description:</strong> {user.description || "Not specified"}
+        </Typography>
       </div>
 
       {/* NÚT XEM DANH SÁCH ẢNH */}
-      <div className="detail-action">
-        <Link to={"/photos/" + userId} className="btn-view-photos">
+      <div>
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          to={"/photos/" + userId}
+        >
           View Photos
-        </Link>
+        </Button>
       </div>
 
     </div>

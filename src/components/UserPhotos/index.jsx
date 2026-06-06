@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { Typography, Card, CardMedia, Divider, Button, TextField, Box } from "@mui/material";
 import "./styles.css";
 import fetchModel, { postModel } from "../../lib/fetchModelData";
 
-const BACKEND_URL = "https://zc32y3-8080.csb.app";
+const BACKEND_URL = "http://localhost:8080";
 
 // Hàm định dạng ngày tháng sang tiếng Anh
 function formatDate(dateStr) {
@@ -39,19 +40,26 @@ function CommentForm({ photoId, onCommentAdded }) {
   };
 
   return (
-    <div className="comment-form-container">
-      <form onSubmit={handleSubmit} className="comment-form">
-        <textarea
-          rows="2"
+    <Box mt={2}>
+      <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
+        <TextField
+          fullWidth
+          size="small"
+          variant="outlined"
           placeholder="Add a comment..."
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
-          className="comment-textarea"
         />
-        <button type="submit" className="btn-add-comment">Add</button>
+        <Button type="submit" variant="contained" color="primary">
+          Add
+        </Button>
       </form>
-      {error && <div className="comment-error">{error}</div>}
-    </div>
+      {error && (
+        <Typography variant="caption" color="error" style={{ marginTop: 5, display: "block" }}>
+          {error}
+        </Typography>
+      )}
+    </Box>
   );
 }
 
@@ -78,74 +86,90 @@ function PhotoStepper({ photos, userId, onCommentAdded }) {
   };
 
   if (photos.length === 0) {
-    return <div className="no-photos">No photos found.</div>;
+    return (
+      <Typography variant="body1" style={{ fontStyle: "italic", padding: 20 }}>
+        No photos found.
+      </Typography>
+    );
   }
 
   const photo = photos[currentIndex];
 
   return (
-    <div className="stepper-container">
+    <Box p={2}>
       
       {/* KHUNG ĐIỀU HƯỚNG PREV / NEXT */}
-      <div className="stepper-navigation">
-        <button
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} p={1} bgcolor="#f5f5f5" border="1px solid #ccc" borderRadius={1}>
+        <Button
           onClick={handlePrev}
           disabled={currentIndex === 0}
-          className="stepper-btn"
+          variant="contained"
+          color="primary"
         >
           &lt; Prev
-        </button>
-        <span className="stepper-counter">
+        </Button>
+        <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
           Photo {currentIndex + 1} of {photos.length}
-        </span>
-        <button
+        </Typography>
+        <Button
           onClick={handleNext}
           disabled={currentIndex === photos.length - 1}
-          className="stepper-btn"
+          variant="contained"
+          color="primary"
         >
           Next &gt;
-        </button>
-      </div>
+        </Button>
+      </Box>
 
       {/* CHI TIẾT ẢNH HIỆN TẠI */}
-      <div className="photo-card">
-        <img
-          src={BACKEND_URL + "/images/" + photo.file_name}
+      <Card variant="outlined" style={{ padding: 15 }}>
+        <CardMedia
+          component="img"
+          image={BACKEND_URL + "/images/" + photo.file_name}
           alt={photo.file_name}
-          className="photo-image"
+          style={{ maxHeight: 450, objectFit: "contain", border: "1px solid #ccc", marginBottom: 10 }}
         />
-        <div className="photo-date">
+        <Typography variant="body2" color="textSecondary" gutterBottom>
           Posted: {formatDate(photo.date_time)}
-        </div>
+        </Typography>
 
         {/* DANH SÁCH BÌNH LUẬN */}
-        <div className="comments-section">
-          <h4>Comments ({photo.comments ? photo.comments.length : 0}):</h4>
+        <Box mt={2}>
+          <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+            Comments ({photo.comments ? photo.comments.length : 0}):
+          </Typography>
+          <Divider style={{ margin: "10px 0" }} />
           
           {photo.comments && photo.comments.length > 0 ? (
-            <ul className="comments-list">
+            <Box mb={2}>
               {photo.comments.map((comment) => (
-                <li key={comment._id} className="comment-item">
-                  <div className="comment-author">
-                    <Link to={"/users/" + comment.user._id}>
+                <Box key={comment._id} mb={1.5} p={1} bgcolor="#f9f9f9" borderLeft="3px solid #1976d2" borderRadius="0 4px 4px 0">
+                  <Typography variant="body2" style={{ fontWeight: "bold" }}>
+                    <Link to={"/users/" + comment.user._id} style={{ textDecoration: "none", color: "#1976d2" }}>
                       {comment.user.first_name} {comment.user.last_name}
                     </Link>
-                    <span className="comment-time"> ({formatDate(comment.date_time)})</span>
-                  </div>
-                  <div className="comment-text">{comment.comment}</div>
-                </li>
+                    <span style={{ fontWeight: "normal", fontSize: "0.8rem", color: "#666", marginLeft: 8 }}>
+                      ({formatDate(comment.date_time)})
+                    </span>
+                  </Typography>
+                  <Typography variant="body2" style={{ marginTop: 4 }}>
+                    {comment.comment}
+                  </Typography>
+                </Box>
               ))}
-            </ul>
+            </Box>
           ) : (
-            <p className="no-comments">No comments yet.</p>
+            <Typography variant="body2" style={{ fontStyle: "italic", color: "#777", marginBottom: 15 }}>
+              No comments yet.
+            </Typography>
           )}
 
           {/* FORM THÊM BÌNH LUẬN */}
           <CommentForm photoId={photo._id} onCommentAdded={onCommentAdded} />
-        </div>
-      </div>
+        </Box>
+      </Card>
 
-    </div>
+    </Box>
   );
 }
 
@@ -188,11 +212,19 @@ function UserPhotos({ advancedFeatures }) {
   };
 
   if (loading) {
-    return <div className="loading-text">Loading photos...</div>;
+    return (
+      <Typography variant="body1" style={{ fontStyle: "italic", padding: 20 }}>
+        Loading photos...
+      </Typography>
+    );
   }
 
   if (photos.length === 0) {
-    return <div className="no-photos">No photos found.</div>;
+    return (
+      <Typography variant="body1" style={{ fontStyle: "italic", padding: 20 }}>
+        No photos found.
+      </Typography>
+    );
   }
 
   // --- TRƯỜNG HỢP 1: BẬT TÍNH NĂNG NÂNG CAO (STEPPER) ---
@@ -208,52 +240,58 @@ function UserPhotos({ advancedFeatures }) {
 
   // --- TRƯỜNG HỢP 2: CHẾ ĐỘ THƯỜNG (HIỂN THỊ DẠNG DANH SÁCH CUỘN) ---
   return (
-    <div className="photos-list-container">
+    <Box p={2}>
       {photos.map((photo) => (
-        <div key={photo._id} className="photo-card-wrapper">
-          
-          {/* Ảnh */}
-          <div className="photo-card">
-            <img
-              src={BACKEND_URL + "/images/" + photo.file_name}
+        <Box key={photo._id} mb={4}>
+          <Card variant="outlined" style={{ padding: 15 }}>
+            <CardMedia
+              component="img"
+              image={BACKEND_URL + "/images/" + photo.file_name}
               alt={photo.file_name}
-              className="photo-image"
+              style={{ maxHeight: 450, objectFit: "contain", border: "1px solid #ccc", marginBottom: 10 }}
             />
-            <div className="photo-date">
+            <Typography variant="body2" color="textSecondary" gutterBottom>
               Posted: {formatDate(photo.date_time)}
-            </div>
+            </Typography>
 
-            {/* Bình luận */}
-            <div className="comments-section">
-              <h4>Comments ({photo.comments ? photo.comments.length : 0}):</h4>
+            {/* DANH SÁCH BÌNH LUẬN */}
+            <Box mt={2}>
+              <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+                Comments ({photo.comments ? photo.comments.length : 0}):
+              </Typography>
+              <Divider style={{ margin: "10px 0" }} />
               
               {photo.comments && photo.comments.length > 0 ? (
-                <ul className="comments-list">
+                <Box mb={2}>
                   {photo.comments.map((comment) => (
-                    <li key={comment._id} className="comment-item">
-                      <div className="comment-author">
-                        <Link to={"/users/" + comment.user._id}>
+                    <Box key={comment._id} mb={1.5} p={1} bgcolor="#f9f9f9" borderLeft="3px solid #1976d2" borderRadius="0 4px 4px 0">
+                      <Typography variant="body2" style={{ fontWeight: "bold" }}>
+                        <Link to={"/users/" + comment.user._id} style={{ textDecoration: "none", color: "#1976d2" }}>
                           {comment.user.first_name} {comment.user.last_name}
                         </Link>
-                        <span className="comment-time"> ({formatDate(comment.date_time)})</span>
-                      </div>
-                      <div className="comment-text">{comment.comment}</div>
-                    </li>
+                        <span style={{ fontWeight: "normal", fontSize: "0.8rem", color: "#666", marginLeft: 8 }}>
+                          ({formatDate(comment.date_time)})
+                        </span>
+                      </Typography>
+                      <Typography variant="body2" style={{ marginTop: 4 }}>
+                        {comment.comment}
+                      </Typography>
+                    </Box>
                   ))}
-                </ul>
+                </Box>
               ) : (
-                <p className="no-comments">No comments yet.</p>
+                <Typography variant="body2" style={{ fontStyle: "italic", color: "#777", marginBottom: 15 }}>
+                  No comments yet.
+                </Typography>
               )}
 
               {/* Form viết bình luận */}
               <CommentForm photoId={photo._id} onCommentAdded={handleCommentAdded} />
-            </div>
-          </div>
-
-          <hr className="photo-separator" />
-        </div>
+            </Box>
+          </Card>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 }
 
